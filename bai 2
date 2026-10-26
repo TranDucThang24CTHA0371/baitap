@@ -1,1 +1,94 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
+
+namespace De02
+{
+    class Nguoi
+    {
+        public string HoTen { get; set; }
+        public int NamSinh { get; set; }
+
+        public Nguoi()
+        {
+            HoTen = "";
+            NamSinh = 2000;
+        }
+
+        public Nguoi(string hoTen, int namSinh)
+        {
+            HoTen = hoTen;
+            NamSinh = namSinh;
+        }
+
+        public void XuatThongTin()
+        {
+            Console.WriteLine($"Ho ten: {HoTen}");
+            Console.WriteLine($"Nam sinh: {NamSinh}");
+        }
+    }
+
+    class NhanVien : Nguoi
+    {
+        public string MaNV { get; set; }
+        public double HeSoLuong { get; set; }
+        public double LuongCoBan { get; set; }
+
+        public NhanVien(string maNV, string hoTen, int namSinh, double heSo, double luongCoBan)
+            : base(hoTen, namSinh)
+        {
+            MaNV = maNV;
+            HeSoLuong = heSo;
+            LuongCoBan = luongCoBan;
+        }
+
+        public double TinhLuong()
+        {
+            return HeSoLuong * LuongCoBan;
+        }
+
+        public void NhapThongTin()
+        {
+            Console.Write("Ma nhan vien: ");
+            MaNV = Console.ReadLine() ?? "";
+
+            Console.Write("Ho ten: ");
+            HoTen = Console.ReadLine() ?? "";
+
+            Console.Write("Nam sinh: ");
+            NamSinh = int.Parse(Console.ReadLine()!);
+
+            Console.Write("He so luong: ");
+            HeSoLuong = double.Parse(Console.ReadLine()!);
+
+            Console.Write("Luong co ban: ");
+            LuongCoBan = double.Parse(Console.ReadLine()!);
+        }
+
+        public new void XuatThongTin()
+        {
+            Console.WriteLine("\n THONG TIN NHAN VIEN ");
+            Console.WriteLine($"Ma NV: {MaNV}");
+            base.XuatThongTin();
+            Console.WriteLine($"He so luong: {HeSoLuong}");
+            Console.WriteLine($"Luong co ban: {LuongCoBan:N0}");
+            Console.WriteLine($"Luong: {TinhLuong():N0} VND");
+        }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+
+            NhanVien nv = new NhanVien("", "", 2000, 1, 0);
+            nv.NhapThongTin();
+            nv.XuatThongTin();
+            Console.ReadKey();
+        }
+    }
+}
