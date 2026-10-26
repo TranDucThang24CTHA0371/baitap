@@ -1,0 +1,111 @@
+using System;
+
+namespace De04
+{
+    class TaiKhoan
+    {
+        public string SoTaiKhoan { get; set; }
+        public string TenChuTaiKhoan { get; set; }
+        private double soDu;
+
+        public double SoDu
+        {
+            get { return soDu; }
+        }
+
+        public TaiKhoan(string soTK, string ten, double soDuBanDau)
+        {
+            SoTaiKhoan = soTK;
+            TenChuTaiKhoan = ten;
+            soDu = Math.Max(0, soDuBanDau);
+        }
+
+        public void NapTien(double soTien)
+        {
+            if (soTien <= 0)
+            {
+                Console.WriteLine("So tien nap phai > 0.");
+                return;
+            }
+            soDu += soTien;
+            Console.WriteLine("Nap tien thanh cong.");
+        }
+
+        public void RutTien(double soTien)
+        {
+            if (soTien <= 0)
+            {
+                Console.WriteLine("So tien rut phai > 0.");
+                return;
+            }
+
+            if (soTien > soDu)
+            {
+                Console.WriteLine("So du khong du.");
+                return;
+            }
+
+            soDu -= soTien;
+            Console.WriteLine("Rut tien thanh cong.");
+        }
+
+        public virtual void XuatThongTin()
+        {
+            Console.WriteLine($"So tai khoan: {SoTaiKhoan}");
+            Console.WriteLine($"Chu tai khoan: {TenChuTaiKhoan}");
+            Console.WriteLine($"So du: {SoDu:N0} VND");
+        }
+    }
+
+    class TaiKhoanTietKiem : TaiKhoan
+    {
+        public double LaiSuatNam { get; set; }
+
+        public TaiKhoanTietKiem(string soTK, string ten, double soDu, double laiSuat)
+            : base(soTK, ten, soDu)
+        {
+            LaiSuatNam = laiSuat;
+        }
+
+        public double TinhTienLai()
+        {
+            return SoDu * LaiSuatNam / 100;
+        }
+
+        public override void XuatThongTin()
+        {
+            base.XuatThongTin();
+            Console.WriteLine($"Lai suat: {LaiSuatNam}%/nam");
+            Console.WriteLine($"Tien lai du kien: {TinhTienLai():N0} VND");
+        }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+
+            Console.Write("So tai khoan: ");
+            string soTK = Console.ReadLine() ?? "";
+
+            Console.Write("Ten chu tai khoan: ");
+            string ten = Console.ReadLine() ?? "";
+
+            Console.Write("So du ban dau: ");
+            double soDu = double.Parse(Console.ReadLine()!);
+
+            Console.Write("Lai suat nam (%): ");
+            double laiSuat = double.Parse(Console.ReadLine()!);
+
+            TaiKhoanTietKiem tk = 
+                new TaiKhoanTietKiem(soTK, ten, soDu, laiSuat);
+
+            tk.NapTien(1000000);
+            tk.RutTien(tk.SoDu + 1000000); // Minh hoa rut that bai
+            tk.XuatThongTin();
+
+            Console.ReadKey();
+        }
+    }
+}
