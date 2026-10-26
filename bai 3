@@ -1,0 +1,81 @@
+namespace De03
+{
+    class HangHoa
+    {
+        public string MaHang { get; set; }
+        public string TenHang { get; set; }
+
+        public HangHoa(string ma, string ten)
+        {
+            MaHang = ma;
+            TenHang = ten;
+        }
+
+        public virtual void XuatThongTin()
+        {
+            Console.WriteLine($"Ma hang: {MaHang}");
+            Console.WriteLine($"Ten hang: {TenHang}");
+        }
+    }
+
+    class SanPham : HangHoa
+    {
+        public double DongGia { get; set; }
+        public int SoLuong { get; set; }
+
+        public SanPham(string ma, string ten, double dongGia, int soLuong)
+            : base(ma, ten)
+        {
+            DongGia = dongGia;
+            SoLuong = soLuong;
+        }
+
+        public double TinhThanhTien()
+        {
+            return DongGia * SoLuong;
+        }
+
+        public double TinhTienSauGiamGia()
+        {
+            double thanhTien = TinhThanhTien();
+            if (thanhTien >= 5000000)
+                return thanhTien * 0.9;
+            return thanhTien;
+        }
+
+        public override void XuatThongTin()
+        {
+            Console.WriteLine("\n THONG TIN SAN PHAM ");
+            base.XuatThongTin();
+            Console.WriteLine($"Don gia: {DongGia:N0}");
+            Console.WriteLine($"So luong: {SoLuong}");
+            Console.WriteLine($"Thanh tien: {TinhThanhTien():N0}");
+            Console.WriteLine($"Sau giam gia: {TinhTienSauGiamGia():N0} VND");
+        }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+
+            Console.Write("Ma hang: ");
+            string ma = Console.ReadLine() ?? "";
+
+            Console.Write("Ten hang: ");
+            string ten = Console.ReadLine() ?? "";
+
+            Console.Write("Don gia: ");
+            double gia = double.Parse(Console.ReadLine()!);
+
+            Console.Write("So luong: ");
+            int sl = int.Parse(Console.ReadLine()!);
+
+            SanPham sp = new SanPham(ma, ten, gia, sl);
+            sp.XuatThongTin();
+
+            Console.ReadKey();
+        }
+    }
+}
